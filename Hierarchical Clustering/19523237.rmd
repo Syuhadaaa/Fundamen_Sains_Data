@@ -1,0 +1,55 @@
+---
+title: 'Hierarchical Clustering'
+output: html_document
+---
+
+```{r}
+library(datasets)
+data("USArrests")
+summary(USArrests)
+```
+
+```{r}
+df <- data.frame(States=rownames(USArrests), USArrests)
+par(las=2)
+par(mar=c(5,8,4,2))
+```
+
+```{r}
+barplot(df$Murder, names.arg = df$States, horiz = TRUE, cex.names = 0.5, xlab = "Murder Arrest per 100.000")
+barplot(df$Assault, names.arg = df$States, horiz = TRUE, cex.names = 0.5, xlab = "Assault Arrest per 100.000")
+barplot(df$Rape, names.arg = df$States, horiz = TRUE, cex.names = 0.5, xlab = "Rape Arrest per 100.000")
+barplot(df$UrbanPop, names.arg = df$States, horiz = TRUE, cex.names = 0.5, xlab = "Polulation in urban area")
+```
+
+#Single Linkage
+```{r}
+df <- data.frame(States=rownames(USArrests), USArrests)
+par(las=2)
+par(mar=c(5,8,4,2))
+df <- scale(df[, 2:5])
+d <- dist(df, method = "euclidean")
+clusters <- hclust(d, method = "single")
+plot(clusters, cex = 0.6, hang = -1)
+```
+
+```{r}
+plot(clusters, cex = 0.6, hang = -1)
+rect.hclust(clusters, k = 4, border = 2:5)
+```
+
+#Average Linkage
+```{r}
+df <- data.frame(States=rownames(USArrests), USArrests)
+par(las=2)
+par(mar=c(5,8,4,2))
+df <- scale(df[, 2:5])
+d <- dist(df, method = "euclidean")
+clusters <- hclust(d, method = "average")
+plot(clusters, cex = 0.6, hang = -1)
+```
+
+```{r}
+plot(clusters, cex = 0.6, hang = -1)
+rect.hclust(clusters, k = 4, border = 2:5)
+```
